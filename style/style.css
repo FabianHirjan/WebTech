@@ -1,131 +1,140 @@
-/*****************
-General
-******************/
+		body {
+		    margin: 0;
+		    padding: 0;
+		    background: url('https://example.com/background-image.jpg') no-repeat center center fixed;
+		    background-size: cover;
+		    font-family: sans-serif;
+		}
+
+		.container {
+		    position: absolute;
+		    top: 50%;
+		    left: 50%;
+		    transform: translate(-50%, -50%);
+		    background-color: rgba(255, 255, 255, 0.7);
+		    padding: 30px;
+		    border-radius: 10px;
+		    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.5);
+		    text-align: center;
+		    width: 300px;
+		}
+
+		/* Center the form on smaller screens */
+		@media (max-width: 600px) {
+		    .container {
+		        width: 90%;
+		    }
+		}
+
+		/* CSS animation for the success message */
+		.success label,
+		.success input[type="text"],
+		.success input[type="password"],
+		.success input[type="submit"] {
+		    animation: fadeOut 1s;
+		}
+
+		.success::before {
+		    content: "✔";
+		    font-size: 2rem;
+		    display: block;
+		    margin-bottom: 1rem;
+		    color: green;
+		    animation: scaleUp 1s;
+		}
+
+		@keyframes fadeOut {
+		    from {
+		        opacity: 1;
+		    }
+
+		    to {
+		        opacity: 0;
+		    }
+		}
+
+		@keyframes scaleUp {
+		    from {
+		        transform: scale(0);
+		    }
+
+		    to {
+		        transform: scale(1);
+		    }
+		}
+
+		/* Center the form on smaller screens */
+		@media (max-width: 600px) {
+		    .container {
+		        width: 90%;
+		    }
+		}
 
 
-html,
-body {
-    height: 100%;
-    margin: -20px 0 0 0;
-    color: white;
-}
+		h1 {
+		    font-size: 32px;
+		    margin-bottom: 30px;
+		}
+
+		/* Header styles */
+		header {
+		    background-color: #333;
+		    color: #fff;
+		    padding: 20px;
+		    display: flex;
+		    justify-content: space-between;
+		    align-items: center;
+		}
+
+		header a {
+		    color: #fff;
+		    text-decoration: none;
+		    font-weight: bold;
+		}
+
+		header nav ul {
+		    list-style: none;
+		    margin: 0;
+		    padding: 0;
+		    display: flex;
+		}
+
+		header nav li {
+		    margin: 0 10px;
+		}
+
+		@media screen and (max-width: 480px) {
+		    header {
+		        flex-direction: column;
+		        align-items: center;
+		    }
+
+		    header nav {
+		        margin-top: 10px;
+		    }
+		}
 
 
-a {
-    text-decoration: none;
-    color: inherit;
-}
+		input[type="text"],
+		input[type="password"] {
+		    padding: 10px;
+		    border-radius: 5px;
+		    border: none;
+		    outline: none;
+		    width: 100%;
+		    margin-bottom: 20px;
+		}
 
+		input[type="submit"] {
+		    padding: 10px 20px;
+		    background-color: #4CAF50;
+		    color: #fff;
+		    border: none;
+		    border-radius: 5px;
+		    cursor: pointer;
+		    transition: background-color 0.3s ease-in-out;
+		}
 
-a:hover {
-    color: #A99FA1;
-}
-
-
-
-/*****************
-  Header 
-  ******************/
-
-header {
-    float: left;
-    background: #3f282d;
-    border-bottom: 2px solid #382428;
-    padding: 25px 0;
-    width: 100%;
-    font-family: 'Lato', sans-serif;
-}
-
-
-/* Logo */
-
-.logo {
-    float: left;
-    text-align: left;
-    margin-left: 5%;
-    font-size: 28px;
-}
-
-
-/* Navigation */
-
-nav {
-    float: right;
-    text-align: right;
-    margin-right: 2%;
-}
-
-
-nav ul {
-    list-style: none;
-    margin: 0;
-    padding-top: 8px;
-}
-
-
-nav li {
-    display: inline-block;
-    padding: 0 8px;
-    text-transform: uppercase;
-    font-size: 12px;
-    letter-spacing: 2px;
-}
-
-
-nav a {
-    padding: 15px 10px;
-}
-
-
-
-/*****************
-  Section 
-  ******************/
-
-section {
-    background: #472d33;
-    height: 100%;
-    text-align: center;
-}
-
-
-section h1 {
-    padding-top: 17%;
-    font-family: 'Vollkorn', serif;
-    font-size: 48px;
-}
-
-
-section p {
-    width: 500px;
-    margin: -28px auto 32px;
-    font-family: 'Muli', sans-serif;
-    font-size: 18px;
-    line-height: 1.35;
-}
-
-
-#submit {
-    height: 50px;
-    width: 220px;
-    background: #BA4662;
-    color: inherit;
-    font-family: 'Lato', sans-serif;
-    font-size: 16px;
-    letter-spacing: 3px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background .3s ease-in-out;
-}
-
-
-#submit:hover {
-    background: #AE3C58;
-}
-
-input:focus {
-    outline: none;
-    border: 2px solid #BA4662;
-    box-shadow: 0 0 10px #BA4662;
-}
+		input[type="submit"]:hover {
+		    background-color: #3e8e41;
+		}
