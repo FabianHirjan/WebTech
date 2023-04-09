@@ -15,12 +15,16 @@
                 <li><a href="index.html">Dashboard</a></li>
                 <li><a href="#">Profile</a></li>
                 <li><a href="review.html">Write a review</a></li>
+                <li><a href="vreviews.html">Write a review</a></li>
                 <li><a href="login.html">Logout</a></li>
             </ul>
         </nav>
     </header>
 
     <div class="container">
+        <div class="chart">
+            <canvas id="chart1"></canvas>
+        </div>
         <div class="chart">
             <canvas id="chart2"></canvas>
         </div>
@@ -30,6 +34,30 @@
     </div>
 
     <script>
+        // Chart 1
+        const ctx1 = document.getElementById('chart1').getContext('2d');
+        const chart1 = new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Registred users',
+                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    data: [12, 19, 3, 5, 2, 3],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
 
         // Chart 2
         const ctx2 = document.getElementById('chart2').getContext('2d');
@@ -38,8 +66,8 @@
             data: {
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                 datasets: [{
-                    label: '# of Votes',
-                    data: [12, 19, 3, 5, 0, 0],
+                    label: '# of Reviews',
+                    data: [12, 19, 3, 5, 2, 3],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
                         'rgba(54, 162, 235, 0.2)',
@@ -75,9 +103,9 @@
         const chart3 = new Chart(ctx3, {
             type: 'doughnut',
             data: {
-                labels: ['5 💀', '4 💀', '3 💀', '2 💀', '1 💀'],
+                labels: ['1 ☠️', '2 ☠️', '3 ☠️', '4 ☠️', '5 ☠️'],
                 datasets: [{
-                    label: '# of Votes',
+                    label: '# Reviews Raport',
                     data: [12, 19, 3, 5, 2],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
@@ -91,7 +119,7 @@
                         'rgba(54, 162, 235, 1)',
                         'rgba(255, 206, 86, 1)',
                         'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)'s
+                        'rgba(153, 102, 255, 1)'
                     ],
                     borderWidth: 1
                 }]

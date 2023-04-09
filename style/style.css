@@ -138,3 +138,69 @@
 		input[type="submit"]:hover {
 			background-color: #3e8e41;
 		}
+
+
+
+		h1 {
+			font-size: 36px;
+			margin: 20px 0;
+			text-align: center;
+		}
+
+		.review {
+			border: 1px solid #ddd;
+			border-radius: 5px;
+			padding: 10px;
+			margin-bottom: 20px;
+		}
+
+		.review h2 {
+			font-size: 24px;
+			margin-bottom: 10px;
+		}
+
+		.review p {
+			font-size: 16px;
+			line-height: 1.5;
+			margin-bottom: 10px;
+		}
+
+		.review .author {
+			font-size: 14px;
+			color: #777;
+		}
+
+		.review .rating {
+			display: inline-block;
+			margin-bottom: 10px;
+		}
+
+		.review .rating label {
+			color: #FFC300;
+			font-size: 24px;
+			cursor: pointer;
+		}
+
+		.review .rating label:hover,
+		.review .rating label:hover~label {
+			color: #FFC300;
+		}
+
+		.review .rating input[type="radio"] {
+			display: none;
+		}
+
+		.review .btn {
+			display: inline-block;
+			background-color: #FFC300;
+			color: #fff;
+			padding: 10px 20px;
+			border-radius: 5px;
+			cursor: pointer;
+			text-decoration: none;
+			transition: all 0.3s ease;
+		}
+
+		.review .btn:hover {
+			background-color: #FFD966;
+		}
