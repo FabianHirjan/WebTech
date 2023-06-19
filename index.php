@@ -1,3 +1,15 @@
+<?php
+// Start the session
+session_start();
+
+// Check if the user is not logged in
+if (!isset($_SESSION['user_id'])) {
+    // Redirect to the login page
+    header('Location: login.php');
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,11 +24,11 @@
     <header>
         <nav>
             <ul>
-                <li><a href="index.html">Dashboard</a></li>
-                <li><a href="#">Profile</a></li>
-                <li><a href="review.html">Write a review</a></li>
-                <li><a href="vreviews.html">Write a review</a></li>
-                <li><a href="login.html">Logout</a></li>
+                <li><a href="index.php">Dashboard</a></li>
+                <li><a href="profile.php">Profile</a></li>
+                <li><a href="review.php">Write a review</a></li>
+                <li><a href="vreviews.php">View reviews</a></li>
+                <li><a href="login.php">Logout</a></li>
             </ul>
         </nav>
     </header>
@@ -41,7 +53,7 @@
             data: {
                 labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
                 datasets: [{
-                    label: 'Registred users',
+                    label: 'Registered users',
                     backgroundColor: 'rgba(255, 99, 132, 0.2)',
                     borderColor: 'rgba(255, 99, 132, 1)',
                     data: [12, 19, 3, 5, 2, 3],
@@ -105,7 +117,7 @@
             data: {
                 labels: ['1 ☠️', '2 ☠️', '3 ☠️', '4 ☠️', '5 ☠️'],
                 datasets: [{
-                    label: '# Reviews Raport',
+                    label: '# Reviews Report',
                     data: [12, 19, 3, 5, 2],
                     backgroundColor: [
                         'rgba(255, 99, 132, 0.2)',
