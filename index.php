@@ -1,12 +1,37 @@
 <?php
-// Start the session
-session_start();
+require 'scripts/config.php';
 
-// Check if the user is not logged in
-if (!isset($_SESSION['user_id'])) {
-    // Redirect to the login page
-    header('Location: login.php');
-    exit();
+// Fetch categories from the database
+$categoryQuery = "SELECT DISTINCT category FROM items";
+$categoryResult = mysqli_query($connection, $categoryQuery);
+
+if (!$categoryResult) {
+    die("Error fetching categories: " . mysqli_error($connection));
+}
+
+// Initialize filters
+$categoryFilter = isset($_GET['category']) ? $_GET['category'] : '';
+$priceFilter = isset($_GET['price']) ? $_GET['price'] : '';
+
+// Build the WHERE clause for filtering
+$whereClause = '';
+if (!empty($categoryFilter)) {
+    $whereClause .= "WHERE category = '$categoryFilter'";
+}
+if (!empty($priceFilter)) {
+    $priceFilter = floatval($priceFilter);
+    $whereClause .= (!empty($whereClause) ? ' AND ' : 'WHERE ') . "price <= $priceFilter";
+}
+
+// Build the ORDER BY clause for sorting
+$orderByClause = "ORDER BY category, price ASC";
+
+// Fetch items from the database with filters and sorting
+$query = "SELECT category, context_of_use, price, is_desirable, popularity, name, description FROM items $whereClause $orderByClause";
+$result = mysqli_query($connection, $query);
+
+if (!$result) {
+    die("Error fetching items: " . mysqli_error($connection));
 }
 ?>
 
@@ -15,9 +40,8 @@ if (!isset($_SESSION['user_id'])) {
 
 <head>
     <meta charset="UTF-8">
-    <title>Landing Page</title>
-    <link rel="stylesheet" href="style/style.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Inventory</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
@@ -26,127 +50,69 @@ if (!isset($_SESSION['user_id'])) {
             <ul>
                 <li><a href="index.php">Dashboard</a></li>
                 <li><a href="profile.php">Profile</a></li>
-                <li><a href="review.php">Write a review</a></li>
-                <li><a href="vreviews.php">View reviews</a></li>
-                <li><a href="login.php">Logout</a></li>
+                <li><a href="add_item.php">Add Item</a></li>
+                <li><a href="export.php">Export</a></li>
+                <li><a href="logout.php">Logout</a></li>
             </ul>
         </nav>
     </header>
 
-    <div class="container">
-        <div class="chart">
-            <canvas id="chart1"></canvas>
-        </div>
-        <div class="chart">
-            <canvas id="chart2"></canvas>
-        </div>
-        <div class="chart">
-            <canvas id="chart3"></canvas>
-        </div>
-    </div>
+    <main>
+        <h1>Inventory</h1>
 
-    <script>
-        // Chart 1
-        const ctx1 = document.getElementById('chart1').getContext('2d');
-        const chart1 = new Chart(ctx1, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Registered users',
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor: 'rgba(255, 99, 132, 1)',
-                    data: [12, 19, 3, 5, 2, 3],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
+        <div class="filters">
+            <form method="get" action="">
+                <label for="category">Category:</label>
+                <select id="category" name="category">
+                    <option value="">All</option>
+                    <?php
+                    // Loop through each category and display it as an option
+                    while ($row = mysqli_fetch_assoc($categoryResult)) {
+                        $category = $row['category'];
+                        echo "<option value=\"$category\"" . ($categoryFilter === $category ? ' selected' : '') . ">$category</option>";
+                    }
+                    ?>
+                </select>
 
-        // Chart 2
-        const ctx2 = document.getElementById('chart2').getContext('2d');
-        const chart2 = new Chart(ctx2, {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: '# of Reviews',
-                    data: [12, 19, 3, 5, 2, 3],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)',
-                        'rgba(255, 159, 64, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)',
-                        'rgba(255, 159, 64, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
-            }
-        });
+                <label for="price">Price:</label>
+                <input type="text" id="price" name="price" value="<?php echo $priceFilter; ?>" placeholder="Max Price">
 
-        // Chart 3
-        const ctx3 = document.getElementById('chart3').getContext('2d');
-        const chart3 = new Chart(ctx3, {
-            type: 'doughnut',
-            data: {
-                labels: ['1 ☠️', '2 ☠️', '3 ☠️', '4 ☠️', '5 ☠️'],
-                datasets: [{
-                    label: '# Reviews Report',
-                    data: [12, 19, 3, 5, 2],
-                    backgroundColor: [
-                        'rgba(255, 99, 132, 0.2)',
-                        'rgba(54, 162, 235, 0.2)',
-                        'rgba(255, 206, 86, 0.2)',
-                        'rgba(75, 192, 192, 0.2)',
-                        'rgba(153, 102, 255, 0.2)'
-                    ],
-                    borderColor: [
-                        'rgba(255, 99, 132, 1)',
-                        'rgba(54, 162, 235, 1)',
-                        'rgba(255, 206, 86, 1)',
-                        'rgba(75, 192, 192, 1)',
-                        'rgba(153, 102, 255, 1)'
-                    ],
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true
-                        }
-                    }]
-                }
+                <input type="submit" value="Apply">
+            </form>
+        </div>
+
+        <div class="items">
+            <?php
+            // Loop through each item and display it
+            while ($row = mysqli_fetch_assoc($result)) {
+                $category = $row['category'];
+                $context_of_use = $row['context_of_use'];
+                $price = $row['price'];
+                $is_desirable = $row['is_desirable'] ? 'Desirable' : 'Undesirable';
+                $popularity = $row['popularity'];
+                $name = $row['name'];
+                $description = $row['description'];
+
+                // Calculate the rating based on popularity
+                $rating = $popularity >= 0 ? '+' : '-';
+                $rating .= abs($popularity);
+
+                // Display the item details
+                echo '<div class="item">';
+                echo "<span class='category'>Category: $category</span>";
+                echo "<span class='context'>Context of Use: $context_of_use</span>";
+                echo "<span class='price'>Price: $price</span>";
+                echo "<span class='desirability'>Desirability: $is_desirable</span>";
+                echo "<span class='rating'>Rating: $rating</span>";
+                echo "<span class='name'>Name: $name</span>";
+                echo "<span class='description'>Description: $description</span>";
+                echo '</div>';
             }
-        });
-    </script>
+            mysqli_free_result($result); // Free the result set
+            ?>
+        </div>
+
+    </main>
 </body>
 
 </html>

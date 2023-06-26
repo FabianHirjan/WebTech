@@ -13,7 +13,7 @@
             <input type="password" name="password" placeholder="Password" required>
             <input type="text" name="email" placeholder="Email address" required>
             <button type="submit">Create</button>
-            <p class="message">Already registered? <a href="index.html">Sign In</a></p>
+            <p class="message">Already registered? <a href="login.php">Sign In</a></p>
         </form>
     </div>
 </body>
