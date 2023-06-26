@@ -83,15 +83,7 @@ if (isset($_POST['change_password'])) {
 </head>
 
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.php">Dashboard</a></li>
-                <li><a href="profile.php">Profile</a></li>
-                <li><a href="logout.php">Logout</a></li>
-            </ul>
-        </nav>
-    </header>
+<?php include 'components/header.php'; ?>
 
     <main>
         <div class="container">

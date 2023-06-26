@@ -1,15 +1,21 @@
 <?php
 require 'scripts/config.php';
 
+// Function to sanitize user input
+function sanitize($input)
+{
+    return htmlspecialchars($input, ENT_QUOTES, 'UTF-8');
+}
+
 // Verifică dacă formularul a fost trimis
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Preia valorile din formular
-    $category = $_POST['category'];
-    $context_of_use = $_POST['context_of_use'];
-    $name = $_POST['name'];
-    $price = $_POST['price'];
+    // Preia valorile din formular și sanitizează-le
+    $category = sanitize($_POST['category']);
+    $context_of_use = sanitize($_POST['context_of_use']);
+    $name = sanitize($_POST['name']);
+    $price = sanitize($_POST['price']);
     $is_desirable = isset($_POST['is_desirable']) ? 1 : 0;
-    $description = $_POST['description'];
+    $description = sanitize($_POST['description']);
 
     // Verifică dacă există deja un item cu același nume și categorie în baza de date
     $existingItemQuery = "SELECT * FROM items WHERE category = '$category' AND name = '$name' LIMIT 1";
@@ -70,17 +76,7 @@ if (!$categoryResult) {
 </head>
 
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.php">Dashboard</a></li>
-                <li><a href="#">Profile</a></li>
-                <li><a href="add_item.php">Add Item</a></li>
-                <li><a href="export.php">Export</a></li>
-                <li><a href="logout.php">Logout</a></li>
-            </ul>
-        </nav>
-    </header>
+    <?php include 'components/header.php'; ?>
 
     <main>
         <div class="container">
@@ -91,7 +87,7 @@ if (!$categoryResult) {
                     <label for="category">Category:</label>
                     <select id="category" name="category" required>
                         <?php while ($row = mysqli_fetch_assoc($categoryResult)) { ?>
-                            <option value="<?php echo $row['category']; ?>"><?php echo $row['category']; ?></option>
+                            <option value="<?php echo sanitize($row['category']); ?>"><?php echo sanitize($row['category']); ?></option>
                         <?php } ?>
                     </select>
                 </div>
@@ -137,7 +133,7 @@ if (!$categoryResult) {
                         suggestionsDiv.innerHTML = '';
                         data.forEach(item => {
                             const suggestion = document.createElement('div');
-                            suggestion.textContent = item;
+                            suggestion.textContent = sanitize(item);
                             suggestion.classList.add('suggestion');
                             suggestionsDiv.appendChild(suggestion);
                         });
@@ -152,7 +148,7 @@ if (!$categoryResult) {
         suggestionsDiv.addEventListener('click', (event) => {
             const clickedSuggestion = event.target;
             if (clickedSuggestion.classList.contains('suggestion')) {
-                nameInput.value = clickedSuggestion.textContent;
+                nameInput.value = sanitize(clickedSuggestion.textContent);
                 suggestionsDiv.innerHTML = '';
             }
         });

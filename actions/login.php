@@ -3,6 +3,7 @@
 
 require_once '../scripts/config.php';
 
+
 if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -34,3 +35,8 @@ if (isset($_POST['login'])) {
     }
 }
 ?>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+</head>

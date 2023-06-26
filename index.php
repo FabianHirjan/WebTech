@@ -41,21 +41,11 @@ if (!$result) {
 <head>
     <meta charset="UTF-8">
     <title>Inventory</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styleindex.css">
 </head>
 
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="index.php">Dashboard</a></li>
-                <li><a href="profile.php">Profile</a></li>
-                <li><a href="add_item.php">Add Item</a></li>
-                <li><a href="export.php">Export</a></li>
-                <li><a href="logout.php">Logout</a></li>
-            </ul>
-        </nav>
-    </header>
+<?php include 'components/header.php'; ?>
 
     <main>
         <h1>Inventory</h1>

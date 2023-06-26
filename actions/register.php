@@ -2,6 +2,10 @@
 // Include the database configuration file
 require_once '../scripts/config.php';
 
+
+
+
+
 if (isset($_POST['name']) && isset($_POST['password']) && isset($_POST['email'])) {
     $name = $_POST['name'];
     $password = $_POST['password'];
@@ -22,3 +26,9 @@ if (isset($_POST['name']) && isset($_POST['password']) && isset($_POST['email'])
     }
 }
 ?>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+</head>
+

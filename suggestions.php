@@ -8,7 +8,7 @@ $name = $_GET['name'];
 $name = mysqli_real_escape_string($connection, $name);
 
 // Interogare pentru a căuta numele itemelor similare în baza de date
-$query = "SELECT name FROM items WHERE category = 'cars' AND name LIKE '$name%'";
+$query = "SELECT name FROM items WHERE name LIKE '$name%'";
 $result = mysqli_query($connection, $query);
 
 if (!$result) {
